@@ -1,6 +1,6 @@
 ---
 title: "[SF] Fusion of SAR and RGB for Object Detection"
-date: 2024-10-15
+date: 2024-07-15
 tags: [SF, Vision]
 ---
 
