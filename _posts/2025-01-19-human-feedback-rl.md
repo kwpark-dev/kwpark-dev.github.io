@@ -1,7 +1,7 @@
 ---
-title: "[PINN] Model-based Time Series Synthesis"
-date: 2023-08-15
-categories: [PINN]
+title: "[RL] Training Acceleration via HFRL"
+date: 2025-01-19
+categories: [RL, vision]
 ---
 
 ## Introduction

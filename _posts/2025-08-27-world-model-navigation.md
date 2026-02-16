@@ -1,7 +1,7 @@
 ---
-title: "[PINN] Model-based Time Series Synthesis"
-date: 2023-08-15
-categories: [PINN]
+title: "[RL] World Model for Navigation Task"
+date: 2025-08-27
+categories: [RL, vision]
 ---
 
 ## Introduction
