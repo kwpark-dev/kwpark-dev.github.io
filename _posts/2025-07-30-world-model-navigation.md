@@ -1,5 +1,5 @@
 ---
-title: "World Model for Navigation Task"
+title: "World Model for Navigation"
 date: 2025-07-30
 tags: [RL, Vision]
 ---
@@ -166,8 +166,6 @@ This figure shows that cumulative reward successfully arrives at (sub) optimum. 
   <em> Cumulative reward and variance evolution using CMA-ES </em>
 </p>
 
-
-## Discussion
 
 
 ## Reference

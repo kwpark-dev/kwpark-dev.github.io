@@ -25,6 +25,8 @@ Vizdoom provides the ego-centric game environment with multi-modalities. In this
   <em> RGB and depth information. Both are resized by 64x64. </em>
 </p>
 
+Imagine playing FPS game, players can notice enemies nearby and even specify where they are. Audio might makeup visual information which is out of sight. 
+
 <p align="center">
   <img src="/assets/images/impala/audio.png" width="500">
   <br>
@@ -158,8 +160,6 @@ The figure above implies that entire action probability are pressed down. Even t
 </p>
 
 Estimated gradient norms also support the same symptom. Before around 1000 of normalized environment step, actor is died; no learning signal from the actor loss. Again, if some actions (or conjunction of actions) require very special circumstances, critic would underestimates. Thus it needs additional audxiliaries such as skill learning. 
-
-## Discussion
 
 
 ## Reference
