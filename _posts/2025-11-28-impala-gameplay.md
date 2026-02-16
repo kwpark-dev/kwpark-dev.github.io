@@ -160,3 +160,6 @@ The figure above implies that entire action probability are pressed down. Even t
 Estimated gradient norms also support the same symptom. Before around 1000 of normalized environment step, actor is died; no learning signal from the actor loss. Again, if some actions (or conjunction of actions) require very special circumstances, critic would underestimates. Thus it needs additional audxiliaries such as skill learning. 
 
 ## Discussion
+
+
+## Reference

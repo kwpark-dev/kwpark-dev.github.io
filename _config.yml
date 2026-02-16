@@ -12,3 +12,10 @@ kramdown:
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+
+sass:
+  style: compressed
+
+cayman:
+  custom_css:
+    - /assets/css/custom.css

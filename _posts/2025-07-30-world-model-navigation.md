@@ -43,7 +43,7 @@ Deep RL consists of deep learning models (policy, critic, depends on the approac
 **NOTE**: details of model architectures are different from the paper.
 
 ## Insights
-1. Image Reconstruction vs Building Latent Space
+**Image Reconstruction vs Building Latent Space**
 
 The V model consists of a variational auto-encoder (VAE), which is optimized by two loss functions, reconstruction loss (MSE) and KL loss. In principle, VAE is a generative model that can sample new images. It figures out the core features of the environment (or training rollout) and learns how to reconstruct the seed image from the latent space. Balancing between reconstruction loss and KL loss is very significant to train VAE properly, because reconstructed images are easily collapsed when one dominates the others. Although the scale of MSE loss is larger than KL loss, KL often has a larger contribution to the gradient (well, it depends). Thus, a well-tuned warm-up or choosing $\beta < 1$ would be helpful for adjustment. If training fails, all reconstructed images show gray (global mean value of the dataset). Test shows that U-net connection improve the reconstruction capability dramatically by preserving high frequency texture.
 
@@ -60,7 +60,7 @@ The V model consists of a variational auto-encoder (VAE), which is optimized by 
 </p>
 
 
-2. Mixture of Gaussian for Trajectories
+**Mixture of Gaussian for Trajectories**
 
 Core idea beneath MDN-RNN is to model a sequence in terms of multiple Gaussian distribution by employing extracted features from RNN. It might need criteria to choose the number of mixtures and the authors of world model select 5 clusters. Following is an illustration for how mixture of Gaussian depicts trajectories. 
 
@@ -71,7 +71,7 @@ Core idea beneath MDN-RNN is to model a sequence in terms of multiple Gaussian d
 </p>
 
 
-3. Training Controller in Dream
+**Training Controller in Dream**
 
 The original reward shape of the sidewalk task was too sparse and had high variance. To force shorter steps to arrive at the goal, every action gets a penalty but $\gamma$ discounted. Only the initial sample $z_0$ and reward signals are collected from the real environment. From $z_1$ to $z_\text{done}$, the M model predicts the next, and the C model tries to figure out the optimal policy in the dream, like **imagination training**! In the sidewalk task, the agent should reach the goal position where the red voxel is located, but with as few steps as possible. 
 
@@ -101,7 +101,7 @@ Why this happens? At least there are two issues; poor credit assignment and lack
 ## Results
 
 ### V model
-1. Rank, Effective Rank & HSIC
+**Rank, Effective Rank & HSIC**
 
 It tells us linear, non-linear correlation of features. Though rank is nearly full, effective rank shows there are linearly redundant features. On the other hand, HSIC is acceptably low.  
 
@@ -111,22 +111,22 @@ It tells us linear, non-linear correlation of features. Though rank is nearly fu
   <em> Comparison of rank & effective rank </em>
 </p>
 
-2. Loss Functions
+**Loss Functions**
 
 It can indicate reconstruction collapse due to evolving two opposite direction, reconstruction and KL divergence. Should look at the gradient magnitude, not its scale alone in order to fine tuning. 
 
 
-3. Gradients
+**Gradients**
 
 Reading its norm and cosine similarity is quite tricky because distinctive learning paradigm prefers different evolution path. If there are multiple sources of the gradient like VAE, it would be helpful invetigating their contribution on the gradient, respectively.
 
 
-4. Effective Sample Size (ESS)
+**Effective Sample Size (ESS)**
 
 Usefulness of batch samples.
 
 ### M model
-1. Mixture Parameters
+**Mixture Parameters**
 
 A plot shows mixture entropy and its values to elaborate if the distributions are not generated.
 <p align="center">
@@ -135,7 +135,7 @@ A plot shows mixture entropy and its values to elaborate if the distributions ar
   <em> Estimated parameters for mixtures of Gaussian </em>
 </p>
 
-2. Loss Functions
+**Loss Functions**
 
 Repulsion loss is added to mdn loss. 
 <p align="center">
@@ -144,7 +144,7 @@ Repulsion loss is added to mdn loss.
   <em> MDN loss and repulsion loss </em>
 </p>
 
-3. Gradients
+**Gradients**
 
 It clearly shows that repulsion loss hinders degenerated states. Please compare this with loss function.
 <p align="center">
@@ -156,7 +156,7 @@ It clearly shows that repulsion loss hinders degenerated states. Please compare 
 
 ### C Model
 
-1. Cumulative Reward & $\sigma ^2$
+**Cumulative Reward & $\sigma ^2$**
 
 This figure shows that cumulative reward successfully arrives at (sub) optimum. As the vanila world model, it is a single layer controller without gradient tracking. But this result doesn't imply that the agent always notice where to go. Definitely it needs more indicators to evaluate the peroformance accordingly. 
 
@@ -168,3 +168,6 @@ This figure shows that cumulative reward successfully arrives at (sub) optimum. 
 
 
 ## Discussion
+
+
+## Reference
