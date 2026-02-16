@@ -1,7 +1,9 @@
-theme: jekyll-theme-minimal
-title: Baggy Cat
+theme: jekyll-theme-cayman
+title: Robo sapiens Project
 description: Fat Cat the Robot AI Researcher
 url: "http://kwpark-dev.github.io"
+author: Baggy Cat
+avatar: /assets/images/blue_the_ascending.jpg
 
 markdown: kramdown
 kramdown:
