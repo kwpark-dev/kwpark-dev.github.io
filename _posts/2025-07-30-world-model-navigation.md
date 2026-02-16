@@ -11,19 +11,16 @@ tags: [RL, Vision]
 The World Models framework is a model-based deep reinforcement learning approach that factorizes the agent into three components: a perceptual model V (Vision) that encodes high-dimensional observations into a latent representation, a dynamics model M (Memory) that predicts the evolution of this latent state over time, and a controller C (Control) that operates entirely within the learned latent space.
 Crucially, the world model components are trained largely independently from the control policy, typically using data collected from the environment and optimized with unsupervised or self-supervised objectives, while the controller is trained on the learned latent dynamics without direct interaction with the real environment during policy optimization. In contrast, modern model-free reinforcement learning implicitly induces a latent state through function approximation and policy optimization, where the representation is shaped primarily by the policy gradient objective, $\nabla J = \mathbf{E} \left[ \nabla \log \pi \text{ } Q \right]$. Under this formulation, the optimal return objective places no explicit constraint on the quality or semantic structure of the learned representation, requiring only that it supports accurate value estimation and action selection in expectation over full trajectories. This raises a fundamental question: whether learning higher-quality latent representations—optimized for predictive structure and long-horizon dynamics rather than immediate policy gradients—can more effectively capture the geometry of optimal trajectories and thereby simplify or improve downstream control.
 
-f
+
 ## Configurations
 
 ### Environment
-The environment utilized by this model is **Miniworld** (see https://miniworld.farama.org/), specialized for simple navigation tasks. All environments offered from the miniworld are ego-centric, it might be closer to practical robot application. Following is summary of task to train an agent.
-
-<div align="center">
+The environment utilized by this model is [Miniworld](https://miniworld.farama.org/), specialized for simple navigation tasks. All environments offered from the miniworld are ego-centric, it might be closer to practical robot application. Following is summary of task to train an agent.
 
 | Task | Goal | Modality |
 |:------:|:--------------:|:---------:|
 | sidewalk | navigation to a red box | vision |
 
-</div>
 
 
 ### Model and Framework
@@ -34,15 +31,12 @@ Deep RL consists of deep learning models (policy, critic, depends on the approac
 2. M model: MDN-RNN, with repulsion loss
 3. C model: CMA-ES, with heuristic reward shaping
 
-<div align="center">
-
 | Model | Parameters | Remark |
 |:------:|:--------------:|:---------:|
 | VAE    | 3,679,725      | U-net connection |
 | MDN-RNN| 1,520,782      | repulsion loss   |
 | CMA-ES | 1731           | reward shaping  |
 
-</div>
 
 **NOTE**: details of model architectures are different from the paper.
 

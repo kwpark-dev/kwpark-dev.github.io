@@ -83,14 +83,11 @@ This limitation becomes more severe when optimal behavior requires a conjunction
 
 In this project setup, two actors and one learner are working. The observed throughputs are followings. The table shows learner is bottleneck of entire training process. Note, it means learner hardly consumes collected data from the actor not actors are idle until the learner digests rest of the data. The learner sample the rollout fragments temporal deque, so while new policy is being updated old trajecroy fragments are removed.  
 
-<div align="center">
-
 | Worker | Throughput  | Resource |
 |:------:|:-----------:|:--------:|
 | Actor  | 200k ~ 400k | 2 CPU    | 
 | Learner| 7k ~ 9k     | 1 GPU    |
 
-</div>
 
 A figure below also illustrates bottlneck of learner when batch size (b) and length size (t) are changed. 
 
