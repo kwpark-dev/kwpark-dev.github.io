@@ -1,5 +1,5 @@
 ---
-title: "[RL] Dreaming Robot Hand Manipulation"
+title: "Dreaming Robot Hand Manipulation"
 date: 2026-02-16
 tags: [RL, Vision]
 ---
