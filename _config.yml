@@ -5,3 +5,8 @@ description: Robot AI Engineer
 markdown: kramdown
 kramdown:
   math_engine: mathjax
+
+header_pages:
+  - about.md
+  - projects.md
+  - blog.md
