@@ -1,8 +1,10 @@
 ---
 title: "[RL] Dreaming Robot Hand Manipulation"
-date: 2026-03-01
-categories: [RL, vision]
+date: 2026-02-16
+tags: [RL, Vision]
 ---
+
+<p>{{ page.tags | join: ", #" | prepend: "#" }}</p>
 
 ## Introduction
 

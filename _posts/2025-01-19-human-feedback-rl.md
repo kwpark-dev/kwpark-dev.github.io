@@ -1,8 +1,10 @@
 ---
 title: "[RL] Training Acceleration via HFRL"
 date: 2025-01-19
-categories: [RL, vision]
+tags: [RL, Vision]
 ---
+
+<p>{{ page.tags | join: ", #" | prepend: "#" }}</p>
 
 ## Introduction
 

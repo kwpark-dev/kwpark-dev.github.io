@@ -1,8 +1,10 @@
 ---
 title: "[RL] World Model for Navigation Task"
 date: 2025-08-27
-categories: [RL, vision]
+tags: [RL, Vision]
 ---
+
+<p>{{ page.tags | join: ", #" | prepend: "#" }}</p>
 
 ## Introduction
 

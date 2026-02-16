@@ -1,8 +1,10 @@
 ---
 title: "[PINN] Model-based Time Series Synthesis"
 date: 2023-08-15
-categories: [PINN]
+tags: [PINN]
 ---
+
+<p>{{ page.tags | join: ", #" | prepend: "#" }}</p>
 
 ## Introduction
 
