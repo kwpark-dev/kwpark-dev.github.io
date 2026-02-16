@@ -1,10 +1,9 @@
+---
+layout: default
+title: Home
+---
+
+
 # Robo sapiens Project
 
-## Objective
-
-## what
-
-
-{% for post in site.posts %}
-  <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-{% endfor %}
+Welcome
