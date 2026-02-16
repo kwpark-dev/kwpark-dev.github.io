@@ -37,7 +37,7 @@ Vizdoom provides the ego-centric game environment with multi-modalities. In this
 The implemented model has two heads comprising shallow policy and critic networks. The model backbone should enable the consideration of sequential correlation crossing over trajectories. This multi-modal sequential model, ViciousTwinMAMBA, employs a state space model block called MAMBA so that the multimodal agent learns a sequence of optimal behaviors. The figure below demonstrates the model scheme. 
 
 <p align="center">
-  <img src="/assets/images/impala/vicious_twin_mamba.png" width="300">
+  <img src="/assets/images/impala/vicious_twin_mamba.png" width="400">
   <br>
   <em> Block diagram for ViciousTwinMAMBA </em>
 </p>
@@ -50,7 +50,7 @@ Three organ networks represent feature extraction component of each domain. Conv
 IMPALA is designed to achieve scalability of RL via multiple actors and a (or multiple) learner(s). Key strategy is asynchronous parallelization; do what they have to do independently. Actors keep sending data and the learner(s) learn policy continuously. Typical strategy of deep RL has a procedure of learning, the learner always wait until new rollouts completes or sample the data from large data buffer. But IMPALA separates them and running the entire process concurrently.   
 
 <p align="center">
-  <img src="/assets/images/impala/impala_core.png" width="300">
+  <img src="/assets/images/impala/impala_core.png" width="400">
   <br>
   <em> Asynchronous actors and policy update </em>
 </p>
@@ -94,7 +94,7 @@ In this project setup, two actors and one learner are working. The observed thro
 A figure below also illustrates bottlneck of learner when batch size (b) and length size (t) are changed. 
 
 <p align="center">
-  <img src="/assets/images/impala/throughput.png" width="300">
+  <img src="/assets/images/impala/throughput.png" width="400">
   <br>
   <em> Measured throughput ratio of actors and a learner. Environment steps are normalized by batch and length size </em>
 </p>
@@ -163,3 +163,6 @@ Estimated gradient norms also support the same symptom. Before around 1000 of no
 
 
 ## Reference
+
+1. [IMPALA](https://proceedings.mlr.press/v80/espeholt18a/espeholt18a.pdf)
+2. [MAMBA](https://arxiv.org/pdf/2312.00752)

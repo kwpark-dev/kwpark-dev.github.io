@@ -171,3 +171,6 @@ This figure shows that cumulative reward successfully arrives at (sub) optimum. 
 
 
 ## Reference
+
+1. [World Model](https://proceedings.neurips.cc/paper/2018/file/2de5d16682c3c35007e4e92982f1a2ba-Paper.pdf)
+2. [CMA-ES](https://arxiv.org/abs/1604.00772)
