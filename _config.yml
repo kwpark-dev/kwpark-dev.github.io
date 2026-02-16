@@ -1,6 +1,7 @@
 theme: jekyll-theme-minimal
-title: Baggy Cat
-description: Robot AI Engineer
+title: Baggy Cat's Robo sapiens Project
+description: Fat Cat the Robot AI Researcher
+url: "http://kwpark-dev.github.io"
 
 markdown: kramdown
 kramdown:
