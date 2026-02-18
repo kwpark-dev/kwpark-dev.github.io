@@ -34,12 +34,12 @@ Note that the world model in Dreamer is naturally multi head architecture that p
   <em> The left panel is trained by MSE loss without significant modification. The right panel clearly shows that L1 loss enhances sharpness of the reconstructed.  </em>
 </p>
 
-However, slot attention struggles to identify the objects. It would be challenging to decompose the complex scenes into independent objects. Like "a hand grasping a cup", unsupervised learning lacks clues to detach them. Nevertheless, it might help RL agent's scene understanding since slot attention groups pixel information.  
+However, slot attention struggles to identify the objects. It would be challenging to decompose the complex scenes into independent objects. Like "a hand grasping a cup", unsupervised learning lacks clues to detach them. Nevertheless, it might help RL agent's scene understanding since slot attention groups pixel information to trigger inductive bias but, it isn't well-agligned with Human's knowledge.
 
 <p align="center">
   <img src="/assets/images/dreamer/mask_compare.png" width="900">
   <br>
-  <em> Both up & down panels fail to identify the objects. </em>
+  <em> Both up & down panels fail to identify the objects but machine can build its own inductive bias. </em>
 </p>
 
 
