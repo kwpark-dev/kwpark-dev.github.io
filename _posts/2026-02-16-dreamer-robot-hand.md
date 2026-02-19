@@ -18,7 +18,7 @@ The Dreamer framework consists of two major components: a world model and an age
 Although Dreamer proposes a specific actor–critic learning procedure optimized for training in latent space, the agent component is not inherently tied to a particular reinforcement learning algorithm. In principle, alternative control or planning methods may be employed, provided they are compatible with the intrinsic dynamics induced by the learned latent world model.
 
 ### Theoretical Idea
-Dreamer separates training loop for the world model and the controller but, the both shares latent states $s_t$ factorized as $h_t, z_t$. $h_t$ is recurrent memory defined as $h_t = f_\theta (h_{t-1}, z_{t-1}, a_{t_1})$, whereas $z_t$ is a sample of $q(z_t|h_t, o_t)$, a stochastic variable. Following illustration describes analogy behind the state factorization. 
+Dreamer separates training loop for the world model and the controller but, the both shares latent states $s_t$ factorized as $h_t, z_t$. $h_t$ is recurrent memory defined as $h_t = f_\theta (h_{t-1}, z_{t-1}, a_{t_1})$, whereas $z_t$ is a sample of $q(z_t|h_t, o_t)$, a stochastic variable. Following illustration describes analogy behind the state factorization. Keep in mind, $z_t$ is something else sampled from the trained distribution, not extracted features from the encoder. The variable $o_t$ corresponds to image features.
 
 <p align="center">
   <img src="/assets/images/dreamer/illustration.png" width="500">
@@ -34,7 +34,7 @@ Note that the world model in Dreamer is naturally multi head architecture that p
   <em> The left panel is trained by MSE loss without significant modification. The right panel clearly shows that L1 loss enhances sharpness of the reconstructed.  </em>
 </p>
 
-However, slot attention struggles to identify the objects. It would be challenging to decompose the complex scenes into independent objects. Like "a hand grasping a cup", unsupervised learning lacks clues to detach them. Nevertheless, it might help RL agent's scene understanding since slot attention groups pixel information to trigger inductive bias but, it isn't well-agligned with Human's knowledge.
+However, slot attention struggles to identify the objects. It would be challenging to decompose the complex scenes into independent objects. Like "a hand grasping a cup", unsupervised learning lacks clues to detach them. Nevertheless, it might help RL agent's scene understanding since slot attention groups pixel information to trigger inductive bias but, it isn't well-aligned with Human's knowledge.
 
 <p align="center">
   <img src="/assets/images/dreamer/mask_compare.png" width="900">
@@ -44,7 +44,13 @@ However, slot attention struggles to identify the objects. It would be challengi
 
 
 ## Configurations
+Dreamer mainly comprises world model including dynamic transition, reward and termination mask as well as behavioral model based on actor-critic approach. PhyXDreamer considers pixel clusters rather than raw individual pixels to enhance physical interpretability by triggering inductive bias. 
 
+<p align="center">
+  <img src="./figures/configuration.png" width="500">
+  <br>
+  <em> Configuration of PhyXDreamer. Slot attention is added to vision model so that the agents can understand the scene in entity-wise manner.  </em>
+</p>
 
 ### Environment
 
