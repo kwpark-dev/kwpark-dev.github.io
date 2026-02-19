@@ -47,7 +47,7 @@ However, slot attention struggles to identify the objects. It would be challengi
 Dreamer mainly comprises world model including dynamic transition, reward and termination mask as well as behavioral model based on actor-critic approach. PhyXDreamer considers pixel clusters rather than raw individual pixels to enhance physical interpretability by triggering inductive bias. 
 
 <p align="center">
-  <img src="./figures/configuration.png" width="500">
+  <img src="/assets/images/dreamer/configuration.png" width="500">
   <br>
   <em> Configuration of PhyXDreamer. Slot attention is added to vision model so that the agents can understand the scene in entity-wise manner.  </em>
 </p>
