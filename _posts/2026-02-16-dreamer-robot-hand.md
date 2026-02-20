@@ -52,6 +52,16 @@ Dreamer mainly comprises world model including dynamic transition, reward and te
   <em> Configuration of PhyXDreamer. Slot attention is added to vision model so that the agents can understand the scene in entity-wise manner.  </em>
 </p>
 
+Significant feature of Dreamer is *dreaming mode*, which performs image training of RL agent. Architectural topology below would tell us how such concept is implemented thereby we can glance what kind of issues are expected. 
+
+<p align="center">
+  <img src="/assets/images/dreamer/architecture.png" width="500">
+  <br>
+  <em> World model architecture. All components are gathered in the training mode. Whereas in dreaming mode, observation components (dashed lines) are detached, only dynamics model contributes to interaction with RL agent. </em>
+</p>
+
+The world model utilized in Dreamer get four kinds of gradient pressure from three task heads and KL regularization. It might need manipulation techniques to tackle gradient pathology problem; it is not guaranteed that all sources are well aligned each other.
+
 ### Environment
 
 
