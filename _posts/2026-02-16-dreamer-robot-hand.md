@@ -43,6 +43,28 @@ However, slot attention struggles to identify the objects. It would be challengi
 </p>
 
 
+### Insights
+From the perspective of the RL agent, the core benefit of a model-based approach is the explicit approximation of the intrinsic dynamics of the task (or latent) space. Consider projectile motion as an example of a real-world dynamical system governed by equations of motion (e.g., a second-order differential equation in time):
+
+$$
+\frac{d^2 x}{dt^2} = f(x, a)
+$$
+
+A model-free approach based on the policy gradient theorem does not attempt to identify or approximate these governing equations. Instead, it updates policy parameters indirectly using sampled trajectories and a likelihood-ratio (score-function) estimator:
+
+$$
+\nabla_\theta J = \mathbb{E}\left[R_t \nabla_\theta \log \pi_\theta(a_t \mid s_t) \right]
+$$
+
+Here, the agent statistically infers useful behaviors from trajectory returns without constructing an explicit transition model. In contrast, a model-based approach learns a surrogate dynamical system in state space as $s_{t+1} = F_\theta (s_t, a_t)$, which can be interpreted as a first-order approximation of the environment’s dynamics. Because this surrogate system is differentiable, policy optimization can be performed via a pathwise derivative as follow.
+
+$$
+\nabla_\theta J = \frac{\partial V_\phi(s)} {\partial s} \frac{\partial s} {\partial a} \frac{\partial a} {\partial \theta}
+$$
+
+Thus, instead of statistically attributing credit through returns, the model-based approach explicitly differentiates through the learned environmental dynamics, yielding a structured and typically lower-variance gradient estimator.
+
+
 ## Configurations
 Dreamer mainly comprises world model including dynamic transition, reward and termination mask as well as behavioral model based on actor-critic approach. PhyXDreamer considers pixel clusters rather than raw individual pixels to enhance physical interpretability by triggering inductive bias. 
 
@@ -55,7 +77,7 @@ Dreamer mainly comprises world model including dynamic transition, reward and te
 Significant feature of Dreamer is *dreaming mode*, which performs image training of RL agent. Architectural topology below would tell us how such concept is implemented thereby we can glance what kind of issues are expected. 
 
 <p align="center">
-  <img src="/assets/images/dreamer/architecture.png" width="500">
+  <img src="/assets/images/dreamer/architecture.png" width="400">
   <br>
   <em> World model architecture. All components are gathered in the training mode. Whereas in dreaming mode, observation components (dashed lines) are detached, only dynamics model contributes to interaction with RL agent. </em>
 </p>
