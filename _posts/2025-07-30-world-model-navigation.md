@@ -16,7 +16,7 @@ Crucially, the world model components are trained largely independently from the
 
 
 ### Theoretical Idea
-World Model suggests how the environment can be structured via ego-centric vision and the observed transition dynamics. Here, ego-centric indicates partially observable states in the task space. Let's look at V model. It provides latent vector compresses perceptual information in the task space through image reconstruction task, which sounds very well-aligned with authors' purpose: our brain reminds abstract representation of spatiotemporal information. The design of V model, called variational auto-encoder (hereafter VAE), however, it isn't deliver the features as the brain intends. In V model, it is trained by reconstruction loss and KL loss, $L = L_{\text{MSE}} + L_{\text{KL}}$. More precisely,
+World Model suggests how the environment can be structured via ego-centric vision and the observed transition dynamics. Here, ego-centric indicates partially observable states in the task space. Let's look at V model. It provides latent vector compresses perceptual information in the task space through image reconstruction task, which sounds very well-aligned with authors' purpose: our brain reminds abstract representation of spatiotemporal information. The design of V model, called variational auto-encoder (hereafter VAE), however, it isn't deliver the features as the brain intends. In V model, it is trained by reconstruction loss and KL loss, $L = L_{\text{MSE}} + D_{\text{KL}}$. More precisely,
 
 $$
 L = \frac{1}{N} \sum_{i=1}^{N} (x_i - x'_i)^2 + \frac{1}{2} \sum_{j=1}^{d} \left( \mu_j^2 + \sigma_j^2 - \log \sigma_j^2 - 1 \right)
@@ -25,10 +25,10 @@ $$
 where prior is standard normal distribution. Let VAE comprise three sets of parameters; encoder $\phi_e$, decoder $\phi_d$, and posterior distribution $\phi_p$. Now, gradient pressure would be
 
 $$
-\frac{\partial L}{\partial \phi_e} = (I - I') \frac{\partial f_{\phi_e}(z)}{\partial z} \frac{\partial z}{\partial \phi_e} + \frac{\partial D_{KL}}{\partial z} \frac{\partial z}{\partial \phi_e}
+\frac{\partial L}{\partial \phi_e} = (I - I') \frac{\partial f_{\phi_d}(z)}{\partial z} \frac{\partial z}{\partial \phi_e} + \frac{\partial D_{KL}}{\partial z} \frac{\partial z}{\partial \phi_e}
 $$
 
-Considering chains of variables, ecoding -> latent -> normal parameters -> sampling -> decoding, partial derivative of KL loss with respect to sampled vector $z$ is related to distribution parameters. Thus, latent vector contains raw pixel compression reducing discrepancy and prior constraints. There's no information like objects or context of scene. If any control agent trained by this latent vector determine actions based on texture reading, not to recognize entities in the scene. In other words, successful control does not necessarily imply semantic understanding. The policy may operate on texture-level statistical regularities embedded in the latent space rather than on structured representations of entities or scene context.
+Considering chains of variables, ecoding > latent > normal parameters > sampling > decoding, partial derivative of KL loss with respect to sampled vector $z$ is related to distribution parameters. Thus, latent vector contains raw pixel compression reducing discrepancy and prior constraints. There's no information like objects or context of scene. If any control agent trained by this latent vector determine actions based on texture reading, not to recognize entities in the scene. In other words, successful control does not necessarily imply semantic understanding. The policy may operate on texture-level statistical regularities embedded in the latent space rather than on structured representations of entities or scene context.
 
 
 
