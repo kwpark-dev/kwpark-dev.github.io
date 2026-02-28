@@ -15,13 +15,13 @@ The World Models framework is a model-based deep reinforcement learning approach
 
 
 ### Theoretical Idea
-World Model suggests how the environment can be structured via perceptional encoding (especially optical images) and the observed transition dynamics. Here, the perceptional encoding implies mathematical entities called state $s_t$ incorporating features of the observation $o_t$ at time $t$. Due to high dimensionality of the $o_t$, like frame images, $s_t$ is designed to live in the lower dimension but it should contain compressed information for a specified task $X$. With a compression constraint, it is defined as
+World Model suggests how the environment can be structured via perceptional encoding (especially optical images) and the observed transition dynamics. Here, the perceptional encoding implies mathematical entities called state $z_t$ incorporating features of the observation $o_t$ at time $t$. Due to high dimensionality of the $o_t$, like frame images, $z_t$ is designed to live in the lower dimension but it should contain compressed information for a specified task $X$. With a compression constraint, it is defined as
 
 $$
-p(X|o_t) \sim p(X|s_t)
+p(X|o_t) \sim p(X|z_t)
 $$
 
-where $s_t = T(o_t)$, which means sufficient statistic. V model in World Model learns $s_t$ via image reconstruction task, thereby state is sufficient statistic for image reconstruction. Architecture of V model is VAE, and it is trained by reconstruction loss and KL loss, $L = L_{\text{MSE}} + D_{\text{KL}}$. More precisely,
+where $z_t = T(o_t)$, which means sufficient statistic. V model in World Model learns $s_t$ via image reconstruction task, thereby state is sufficient statistic for image reconstruction. Architecture of V model is VAE, and it is trained by reconstruction loss and KL loss, $L = L_{\text{MSE}} + D_{\text{KL}}$. More precisely,
 
 $$
 L = \frac{1}{N} \sum_{i=1}^{N} (x_i - x'_i)^2 + \frac{1}{2} \sum_{j=1}^{d} \left( \mu_j^2 + \sigma_j^2 - \log \sigma_j^2 - 1 \right)
@@ -33,8 +33,17 @@ $$
 \frac{\partial L}{\partial \phi_e} = (I - I') \frac{\partial f_{\phi_d}(z)}{\partial z} \frac{\partial z}{\partial \phi_e} + \frac{\partial D_{KL}}{\partial z} \frac{\partial z}{\partial \phi_e}
 $$
 
-Considering chains of variables, ecoding $\rightarrow$ latent $\rightarrow$ normal parameters $\rightarrow$ sampling $\rightarrow$ decoding, partial derivative of KL loss with respect to sampled vector $z$ is related to distribution parameters. Thus, latent vector contains raw pixel compression reducing discrepancy and prior constraints. There's no information like objects or context of scene. If any control agent trained by this latent vectors, it would determine actions based on texture reading, not recognizing entities or understanding scene. Then, what if texture information changes like different colors, or bit blurred? Due to heavy reliance on texture, the agent definitely loses the performance. Note that this is not problem of VAE, but problem of task selection; should think about building sufficient statistic for which task $X$.
+Considering chains of variables, ecoding $\rightarrow$ latent $\rightarrow$ normal parameters $\rightarrow$ sampling $\rightarrow$ decoding, partial derivative of KL loss with respect to sampled vector $z_t$ is related to distribution parameters. Thus, latent vector contains raw pixel compression reducing discrepancy and prior constraints. There's no information like objects or context of scene. If any control agent trained by this latent vectors, it would determine actions based on texture reading, not recognizing entities or understanding scene. Then, what if texture information changes like different colors, or bit blurred? Due to heavy reliance on texture, the agent definitely loses the performance. Note that this is not problem of VAE, but problem of task selection; should think about building sufficient statistic for which task $X$. 
 
+Let's move to M model. It learns a transition dynamics such that
+
+$$
+z_{t+1} \sim p_\theta (z_{t+1} | z_t, a_t)
+$$
+
+which describes how the action $a_t$ changes the current latent state into the next latent state. However, the latent state is produced by the V model, which is trained solely for reconstruction.As a result, latent vector is approximately sufficient for pixel-level reconstruction, but not necessarily sufficient for semantic structure, object-level factorization, or control-relevant abstraction. There is no gradient pressure in the V objective that enforces entity-level disentanglement or causal structure.
+
+Thus, the M model learns dynamics in a reconstruction-aligned latent space. The learned transition therefore captures how compressed perceptual features evolve over time, rather than explicitly modeling object motion, physical laws, or structured scene dynamics. While object-like abstractions may emerge if they improve reconstruction efficiency, such structure is incidental rather than enforced by the training objective. From an RL perspective, decision-makings are based on compressed perceptual statistics rather than explicitly structured entities, which contrasts with the object-centered representations typically associated with human scene understanding.
 
 
 ## Configurations
