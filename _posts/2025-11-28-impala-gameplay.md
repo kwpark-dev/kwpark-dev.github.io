@@ -10,7 +10,22 @@ tags: [RL, SF, Vision]
 
 ## Introduction
 
+### Overview
 IMPALA employs an asynchronous, distributed architecture for scalable reinforcement learning by decoupling experience collection from policy learning. By analogy to conventional supervised or unsupervised learning workflows, where data are first collected or prepared and then consumed by a learner in a separate training phase, many traditional reinforcement learning implementations couple environment interaction and learning in a staged, synchronous manner, leading to idle time between phases. IMPALA mitigates this inefficiency by running multiple actor processes asynchronously alongside a centralized learner. Actors continuously interact with the environment and stream trajectories to the learner, while the learner consumes available data immediately and updates the policy without waiting for all actors to complete rollouts. Updated policy parameters are periodically broadcast back to actors, enabling uninterrupted data collection and efficient utilization of computational resources, with stability maintained through off-policy correction mechanisms such as V-trace.
+
+
+### Theoretical Idea
+IMAPALA has off-policy actor-critic mechanism, which builds mathematical foundation on policy gradient theorem with means to stabilize learning signal. Derived gradient of objective function under the assumptions of PG theorem, 1st order Markovian transition and unbiased value, is state action value $Q$ times gradient of log likelihood.
+
+$$
+\nabla _\theta J(\theta) = \mathbf(E) \left[ \nabla _\theta \log \pi (a_t | z_t)  \text{ } Q (a_t, z_t) \right] 
+$$
+
+In deep reinforcement learning, the gradient is estimated in the latent space and there's no safety means to guarantee the Markovian property in state or state-action transition. Besides, if state values are inpolated via temporal difference (TD), it would introduce bootstrapping bias thereby all assumptions of PG theorem are broken in the implementation stage. Even though value estimator utilizes full trajectory, it usually fails due to high variance. One more thing, theorem itself doesn't care of scope of observability. In short, promising RL algorithm has to consider additional constraints forcing theoretical boundary conditions and mitigating practical challenges to accomplish domain specific task. 
+
+Get back to IMPALA, what are ideas behind the RL framework? According to PG theorem, value estimation from full trajectory is unbiased but it causes high variance of gradient. Here, high variance implies that there are too many uncertain gradient pathologies, which delivers weak learnable signal to reach out the optimum. Even trajectories sampled from the old actors worse the problem because such data points are way shifted from the current distribution. IMPALA suggests variance mitigation strategy called V-trace so that it smoothes variances from the full trajectory as PPO does with off-policy variance reduction: it is analogous to trust-region style stabilization, but through truncated importance sampling.
+
+Now, let's consider the notion of learning signal in deep RL. IMPALA primarily addresses instability arising from off-policy correction and policy lag in distributed actor–learner architectures, thereby stabilizing value estimation through V-trace. However, stability alone does not guarantee universal performance across tasks. In practice, even algorithms built upon solid foundations cannot dominate across diverse environments because they do not enforce that latent representations encode structured, causal, or semantically meaningful information about the environment. The agent optimizes reward directly, without guarantees that its learned representation captures sufficient statistics of the environment’s intrinsic dynamics. Therefore, beyond variance reduction and stability mechanisms, effective deep RL must consider inductive biases and constraints that align representation learning and reward signals with the structural properties of the task domain.
 
 
 ## Configurations
