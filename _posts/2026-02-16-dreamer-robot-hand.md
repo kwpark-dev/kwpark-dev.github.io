@@ -62,7 +62,7 @@ $$
 \nabla_\theta J = \frac{\partial V_\phi(s)} {\partial s} \frac{\partial s} {\partial a} \frac{\partial a} {\partial \theta}
 $$
 
-Thus, instead of statistically attributing credit through returns, the model-based approach explicitly differentiates through the learned environmental dynamics, yielding a structured and typically lower-variance gradient estimator.
+Thus, instead of statistically attributing credit through returns, the model-based approach explicitly differentiates through the learned environmental dynamics, yielding a structured and typically lower-variance gradient estimator. In short, model-based approach builds differentiable structure that is analogous to equation of motion thereby it can reduce variance from envrionmental transition dynamics. 
 
 
 ## Configurations
@@ -85,16 +85,76 @@ Significant feature of Dreamer is *dreaming mode*, which performs image training
 The world model utilized in Dreamer get four kinds of gradient pressure from three task heads and KL regularization. It might need manipulation techniques to tackle gradient pathology problem; it is not guaranteed that all sources are well aligned each other.
 
 ### Environment
+The robot hand manipulating a block environment is [here](https://robotics.farama.org/envs/shadow_dexterous_hand/) with few modification. I want to regard the env as the robot is watching its hand, so the target pose of the block is relocated. Furthermore, reward signal reflects orientation only rather than full coordinates.  
 
+```python
 
+obs, _, terminated, truncated, info = env.step(action)
+
+done = terminated or truncated
+des = np.array(obs['desired_goal'])
+ach = np.array(obs['achieved_goal'])
+
+q1 = des[3:] / np.linalg.norm(des[3:])
+q2 = ach[3:] / np.linalg.norm(ach[3:])
+
+dot = np.abs(np.dot(q1, q2))
+dot = np.clip(dot, -1.0, 1.0)  
+
+reward = - 2.0 * np.arccos(dot)
+
+```
 
 ### Model
+Significant feature of PhyXDreamer is delivering pixel clusters rather than raw pixels. In the class, at least following objects should be included. Keep in mind, the latent state $s_t$ is factored by $(h_t, z_t)$.
+
+```python
+
+self.encoder = Encoder(model_param['encoder'])
+self.slot_attn = SlotAttention(model_param['slot_attn'])
+self.layer_norm = nn.LayerNorm(dim)
+
+self.mlp = nn.Sequential(
+    nn.Linear(dim, dim),
+    nn.ReLU(),
+    nn.Linear(dim, dim)
+)
+# observation encoding modules        
+
+self.rssm = RecurrentSSM(model_param['rssm'])
+# model backbone
+
+self.decoder = Decoder(model_param['decoder'])
+# decoder, the first head
+
+self.t_model = nn.Sequential(
+    nn.Linear(2 * dim, 2 * dim),
+    nn.SiLU(),
+    nn.Linear(2 * dim, 1)
+)
+# termination model, the second head
+
+self.r_model = nn.Sequential(
+    nn.Linear(2 * dim, 2 * dim),
+    nn.SiLU(),
+    nn.Linear(2 * dim, 1)
+)
+# reward model, the third head
+
+```
+There's nothing special for RL agent's architecture. You can merge or separate actor and critic on your own design choice. 
 
 
 ### Framework
+When you train the RL agent (a.k.a. dreaming mode), you should pipe it to world model considering computation graph. Again, one of benefits of Dreamer is to model differentiable structure of the environment therefore, transition dynamics is necessarily included in the computation graph. The training sequence is following.
+
+1. For a given sequential data batch comprising image, action, reward, and termination mask, train a world model. Let's say data has (B, T) ignoring data dimension. By one step sequential modeling in RSSM module, we can collect sequence of $s_t = (h_t, z_t)$.
+
+2. Detach the collected states, these are utilized as initial states for RL agent. Note that world model is still in training mode without gradient passing, not inference mode. Estimate $h_{t+1}$ and sample $z_{t+1}$ from prior distribution using detached initial state. This process would add the learned transition to the computation graph while RL optimization performs. Depending on the version fo the Dreamer, either train the RL agent using log likeliohood signal or pathwise gradient derived from the value estimator after action reparameterzation. 
 
 
-## Results
+## Summary
+A crucial feature of Dreamer is the construction of a differentiable world model that approximates environment dynamics, enabling the RL agent to reduce uncertainty arising from stochastic transitions. By learning structured latent dynamics, the agent can optimize its policy through imagined rollouts rather than relying solely on noisy environment interactions. In this project, PhyXDreamer aims to improve the interpretability of the latent state by incorporating unsupervised object discovery mechanisms. The goal is to encourage the latent representation to reflect object-level structure instead of purely compressing pixel information. However, due to limited computational resources, it has not been possible to empirically verify whether pixel clustering or object-centric representations lead to measurable improvements in RL performance.
 
 
 ## Reference
