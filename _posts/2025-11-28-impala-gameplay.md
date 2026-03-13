@@ -1,5 +1,5 @@
 ---
-title: "IMPALA Agent Playing Vizdoom"
+title: "[Phase 1] IMPALA Agent Playing Vizdoom"
 date: 2025-11-28
 tags: [RL, SF, Vision]
 ---

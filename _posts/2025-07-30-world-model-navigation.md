@@ -1,5 +1,5 @@
 ---
-title: "World Model for Navigation"
+title: "[Phase 1] World Model for Navigation"
 date: 2025-07-30
 tags: [RL, Vision]
 ---

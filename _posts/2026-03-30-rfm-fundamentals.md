@@ -1,5 +1,5 @@
 ---
-title: "Robot Foundation Model Fundamental"
+title: "[Phase 2] Robot Foundation Model Fundamental"
 date: 2026-03-30
 tags: [RFM]
 ---
