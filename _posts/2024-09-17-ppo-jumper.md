@@ -29,7 +29,7 @@ Leaving aside the representation learning problem, PPO focuses on mitigating thi
 Hopper-v5 task @mujoco where observation is 11 dim and action is 3 dim.
 
 <p align="center">
-  <img src="./figures/Hopper-v5_91.png" width="300">
+  <img src="/assets/images/ppo/Hopper-v5_91.png" width="300">
   <br>
   <em> Jumping Hopper-v5   </em>
 </p>
