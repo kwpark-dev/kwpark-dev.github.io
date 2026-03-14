@@ -1,5 +1,5 @@
 ---
-title: "[Review] PPO Jumper"
+title: "[RL Exp.] PPO Jumper"
 date: 2024-09-17
 tags: [RL]
 ---

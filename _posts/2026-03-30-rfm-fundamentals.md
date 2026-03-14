@@ -1,6 +1,6 @@
 ---
 title: "[RFM & RL Int.] Robot Foundation Model Fundamental"
-date: 2026-03-30
+date: 2026-03-14
 tags: [RFM]
 ---
 
@@ -41,11 +41,15 @@ $$
 \text{attn} (e) = \phi (e M e^T) f(e)
 $$
 
-where $M = W_q W_k ^T$. Inside function $\phi$, let $M$ be identity matrix. Then, elements of $E = ee^T$ are inner product of each row, which corresponds to token. In other word, the matrix measures similarity! Now considering matrix $M = W_q W_k ^T$, it adjusts similarity from learning signals. In short, a role of $M$ is similarity metric of the embedding and function $\phi$ provides complexity for better context capacity. With non-linear similarity, multiplying embedding alone implies re-mix semantics-nothing buy smoothing operator. If similarity relevant information can be extracted from the embedding, attention would become more reliable. Thus, $f(e)$ should determine message representation.          
+where $M = W_q W_k ^T$. Inside function $\phi$, let $M$ be identity matrix. Then, elements of $E = ee^T$ are inner product of each row, which corresponds to token. In other word, the matrix measures similarity! Now considering matrix $M = W_q W_k ^T$, it adjusts similarity from learning signals. In short, a role of $M$ is similarity metric of the embedding and function $\phi$ provides complexity for better context capacity. With non-linear similarity, multiplying embedding alone implies re-mix semantics-nothing smoothing operator. If similarity relevant information can be extracted from the embedding, attention would become more reliable. Thus, $f(e)$ should determine message representation.          
 
 
 ### Multi-head Attention
+Transformer defines context as attention mechanism that builds dependency structure of the embedding. But there are many types of dependency structure such as syntactic relation, long-distance refence, and subject-verb agreement. Idea of multi-head attetion (MHA) is building finer dependency structures in parallel thereby the model can capture more diverse token relationships. From the single attention, MHA with $h$ heads is defined as follows.
 
+$$
+\text{mha} (e) = \left[ \text{attn}_1 (e), ..., \text{attn}_h (e) \right]
+$$
 
 
 
