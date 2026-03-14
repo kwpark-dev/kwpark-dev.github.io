@@ -1,5 +1,5 @@
 ---
-title: "[Phase 1] Dreaming Robot Hand Manipulation"
+title: "[RL Exp.] Dreaming Robot Hand Manipulation"
 date: 2026-02-28
 tags: [RL, Vision]
 ---
