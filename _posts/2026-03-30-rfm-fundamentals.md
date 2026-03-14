@@ -45,13 +45,13 @@ where $M = W_q W_k ^T$. Inside function $\phi$, let $M$ be identity matrix. Then
 
 
 ### Multi-head Attention
-Transformer defines context as attention mechanism that builds dependency structure of the embedding. But there are many types of dependency structure such as syntactic relation, long-distance refence, and subject-verb agreement. Idea of multi-head attetion (MHA) is building finer dependency structures in parallel thereby the model can capture more diverse token relationships. From the single attention, MHA with $h$ heads is defined as follows.
+Transformer defines context as attention mechanism that builds dependency structure of the embedding. But there are many types of dependency structure such as syntactic relation, long-distance refence, and subject-verb agreement. Idea of multi-head attetion (MHA) is building finer dependency structures in parallel thereby the model can capture more diverse token relationships. From the single attention, MHA with $h$ heads is defined as
 
 $$
-\text{mha} (e) = \left[ \text{attn}_1 (e), ..., \text{attn}_h (e) \right]
+\text{mha} (e) = \psi \left( \left[ \text{attn}_1 (e), ..., \text{attn}_h (e) \right] \right)
 $$
 
-
+where $\psi(\cdot)$ is linear operation.
 
 
 ### Experiments
