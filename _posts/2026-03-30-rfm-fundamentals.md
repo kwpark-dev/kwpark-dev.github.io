@@ -54,8 +54,12 @@ $$
 where $\psi(\cdot)$ is linear operation.
 
 
-### Experiments
+### Cross Attention
+Decoding layer in Transformer includes cross attention that entangles projections of input and output sequences. Transformer predicts one-step forward sequence so, it tries to extract selective information according to query. Such information matching capability is trained by cross attention where it comprises query ($q_{\text{output}}$) from the output, one-step shifted masked input, and sources ($k_{\text{input}}, v_{\text{input}}$).
+
+
+### Multimodal Transformer
 
 
 
-## Multimodal Transformer
+## Diffusion Policy
