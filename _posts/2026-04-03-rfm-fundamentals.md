@@ -1,6 +1,6 @@
 ---
 title: "[RFM & RL Int.] Robot Foundation Model Fundamental"
-date: 2026-03-17
+date: 2026-04-03
 tags: [RFM]
 ---
 
@@ -11,7 +11,7 @@ tags: [RFM]
 ## Introduction
 Robot Foundation Model (RFM) aim to integrate human-like intelligence into robotic systems so that robots can accomplish complex tasks through high-level instructions. Humans primarily rely on language when interacting with one another, as language serves as a major abstraction for conveying information. Likewise, if a machine can capture the context of conversations or textual instructions, it could follow commands expressed in natural language. Therefore, an RFM must holds at least two key capabilities: a language model to interact with humans and additional modalities that enable interaction with the physical task space.
 
-The basic structure of a Robot Foundation Model (RFM) typically consists of a vision encoder, a large language model (LLM), and optional components responsible for action policies. While the exact architecture depends on design choices, most recently developed RFMs heavily rely on transformer-based components. This reliance extends even to the vision encoder, which is commonly implemented using Vision Transformers (ViTs). In the future, alternative sequential models such as state-space models (SSMs) may also be considered. Before discussing RFMs in greater detail, it is therefore important to develop a precise understanding of the transformer architecture.
+The structure of a RFM typically consists of a vision encoder, a large language model (LLM), and additional components responsible for action policies. It naturally aligns with perception - decision - action loop with system-level integration, which is a well-established paradigm for robot AI embodiment. We analyze where components in RFM are located in which layer of embodiment accordingly. 
 
 
 ## [Transformer](https://arxiv.org/abs/1706.03762)
@@ -57,3 +57,31 @@ where $\psi(\cdot)$ is linear operation.
 ### Cross Attention
 Decoding layer in Transformer includes cross attention that entangles projections of input and output sequences. Transformer predicts one-step forward sequence so, it tries to extract selective information according to query. Such information matching capability is trained by cross attention where it comprises query ($q_{\text{output}}$) from the output, one-step shifted masked input, and sources ($k_{\text{input}}, v_{\text{input}}$).
 
+
+## Embodiment Layers
+Robotic agent performing manufacturing task should comprise perception - decision - action loop with system - level integration. Core components of each layer are as follow.
+
+### Perception
+* State estimation under partial observability
+* Representation grounding
+* Perception robustness
+
+### Decision
+* Task decomposition & structure based on learned representation
+* Closed-loop generalization (robustness for messy environment)
+* Planning or reactive policy
+* Efficient skill acquisition & reuse
+
+### Action
+* Contact-rich, precise control under uncertainties
+* Real-time responsiveness
+
+### System Integration
+* Reliability: consistent, low variance execution
+* Robustness: works across distribution shift
+* Anomaly detection & discovery
+
+Now let's look at RFM. Vision-Language-Action (VLA) models finetune the Vision-Language Model (VLM) by adding action module so that VLM produces action grounded representation as stated in perception layer. VLA heavily relies on human's demo data to learn implicit sequences in demonstration as imitation learning. In other words, decision and action layers are tightly coupled. In short, 
+
+* Perception: Highly dependent on pretrained VLM performance. Semantic representation is mapped to control-relevant feature via finetuning.
+* Decision & Action: Trained under the demo data. Low-level control and decision-making are tightly coupled. 
