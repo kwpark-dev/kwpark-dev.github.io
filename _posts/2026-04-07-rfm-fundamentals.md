@@ -4,6 +4,8 @@ date: 2026-04-07
 tags: [RFM]
 ---
 
+{% include mathjax.html %}
+
 <p>{{ page.tags | join: ", #" | prepend: "#" }}</p>
 
 ## Introduction
