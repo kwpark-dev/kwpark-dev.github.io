@@ -61,35 +61,35 @@ Decoding layer in Transformer includes cross attention that entangles projection
 ## Embodiment Layers
 Robotic agent performing manufacturing task should comprise perception - decision - action loop with system - level integration. Core components of each layer are as follow.
 
-### Perception
+#### Perception
 * State estimation under partial observability
 * Representation grounding
 * Perception robustness
 
-### Decision
+#### Decision
 * Task decomposition & structure based on learned representation
 * Closed-loop generalization (robustness for messy environment)
 * Planning or reactive policy
 * Efficient skill acquisition & reuse
 
-### Action
+#### Action
 * Contact-rich, precise control under uncertainties
 * Real-time responsiveness
 
-### System Integration
+#### System Integration
 * Reliability: consistent, low variance execution
 * Robustness: works across distribution shift
 * Anomaly detection & discovery
 
-Now let's look at RFM. Vision-Language-Action (VLA) models finetune the Vision-Language Model (VLM) by adding action module so that VLM produces action grounded representation as stated in perception layer. VLA heavily relies on human's demo data to learn implicit sequences in demonstration as imitation learning. In other words, decision and action layers are tightly coupled. In short, 
+Now let's look at RFM. Vision-Language-Action (VLA) models finetune the Vision-Language Model (VLM) by adding action module so that VLM produces action grounded representation as stated in perception layer. VLA heavily relies on human's demo data to learn implicit sequences in demonstration as imitation learning. In short, 
 
 * Perception: Highly dependent on pretrained VLM performance. Semantic representation is mapped to control-relevant feature via finetuning.
 * Decision & Action: Trained under the demo data. Low-level control and decision-making are tightly coupled. 
 
-## Decision-Action Approaches
+VLM typically is trained under the multimodal transformer but it depends on the system or architecture engineering you prefer. Just leave behind perception layer for a while, what are additional strategies that are emerging for the action capabilities? 
+
 
 ### Diffusion Policy
-
 $$
 \begin{aligned}
 a &= b + c \\
@@ -98,5 +98,7 @@ a &= b + c \\
 $$
 
 
-
 ### Flow Matching
+
+
+### Action Expert
