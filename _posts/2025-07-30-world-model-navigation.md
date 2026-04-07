@@ -4,8 +4,6 @@ date: 2025-07-30
 tags: [RL, Vision]
 ---
 
-{% include mathjax.html %}
-
 <p>{{ page.tags | join: ", #" | prepend: "#" }}</p>
 
 ## Introduction
