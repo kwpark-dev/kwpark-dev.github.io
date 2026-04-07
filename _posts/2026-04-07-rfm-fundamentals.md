@@ -1,6 +1,6 @@
 ---
 title: "[RFM & RL Int.] Robot Foundation Model Fundamental"
-date: 2026-04-03
+date: 2026-04-07
 tags: [RFM]
 ---
 
@@ -85,3 +85,18 @@ Now let's look at RFM. Vision-Language-Action (VLA) models finetune the Vision-L
 
 * Perception: Highly dependent on pretrained VLM performance. Semantic representation is mapped to control-relevant feature via finetuning.
 * Decision & Action: Trained under the demo data. Low-level control and decision-making are tightly coupled. 
+
+## Decision-Action Approaches
+
+### Diffusion Policy
+
+$$
+\begin{aligned}
+a &= b + c \\
+  &= d + e
+\end{aligned}
+$$
+
+
+
+### Flow Matching
