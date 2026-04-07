@@ -91,10 +91,10 @@ VLM is typically trained under the multimodal transformer but it depends on the 
 
 ### Diffusion Policy
 $$
-\begin{aligned}
+\begin{align*}
 a &= b + c \\
   &= d + e
-\end{aligned}
+\end{align*}
 $$
 
 
