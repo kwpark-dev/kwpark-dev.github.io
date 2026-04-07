@@ -86,7 +86,7 @@ Now let's look at RFM. Vision-Language-Action (VLA) models finetune the Vision-L
 * Perception: Highly dependent on pretrained VLM performance. Semantic representation is mapped to control-relevant feature via finetuning.
 * Decision & Action: Trained under the demo data. Low-level control and decision-making are tightly coupled. 
 
-VLM typically is trained under the multimodal transformer but it depends on the system or architecture engineering you prefer. Just leave behind perception layer for a while, what are additional strategies that are emerging for the action capabilities? 
+VLM is typically trained under the multimodal transformer but it depends on the system or architecture that engineers prefer. Just leave behind perception layer for a while, what are additional strategies that are emerging for the action capabilities? 
 
 
 ### Diffusion Policy
