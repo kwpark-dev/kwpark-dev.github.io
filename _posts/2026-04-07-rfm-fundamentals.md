@@ -61,22 +61,26 @@ Decoding layer in Transformer includes cross attention that entangles projection
 ## Embodiment Layers
 Robotic agent performing manufacturing task should comprise perception - decision - action loop with system - level integration. Core components of each layer are as follow.
 
-#### Perception
+**Perception**
+
 * State estimation under partial observability
 * Representation grounding
 * Perception robustness
 
-#### Decision
+**Decision**
+
 * Task decomposition & structure based on learned representation
 * Closed-loop generalization (robustness for messy environment)
 * Planning or reactive policy
 * Efficient skill acquisition & reuse
 
-#### Action
+**Action**
+
 * Contact-rich, precise control under uncertainties
 * Real-time responsiveness
 
-#### System Integration
+**System Integration**
+
 * Reliability: consistent, low variance execution
 * Robustness: works across distribution shift
 * Anomaly detection & discovery
@@ -86,14 +90,25 @@ Now let's look at RFM. Vision-Language-Action (VLA) models finetune the Vision-L
 * Perception: Highly dependent on pretrained VLM performance. Semantic representation is mapped to control-relevant feature via finetuning.
 * Decision & Action: Trained under the demo data. Low-level control and decision-making are tightly coupled. 
 
+
+## Decision & Action Modules
+
 VLM is typically trained under the multimodal transformer but it depends on the system or architecture that engineers prefer. Just leave behind perception layer for a while, what are additional strategies that are emerging for the action capabilities? 
 
 
 ### Diffusion Policy
+Diffusion policy learns a distribution over short horizon action chunks instead of individual actions. While it can produce full trajectory, distribution shift may hinder task accomplishment. The output of diffusion policy might be resemble with hierarchical RL but the core idea is distinguishable. It is based on [diffusion model](https://arxiv.org/abs/1503.03585), which is unsupervised generative model inspired by statistical thermodynamics. Dropping an ink droplet on water surface, the droplet becomes faded as ink particles spread out via Brownian motion. Diffusion model mimics this physical process by adding learnable recovery procedure to generate a new distribution. Forward process gradually diffuses the original data distribution $q(x_0)$ utilizing pre-defined Markovian kernel $q(x_t \mid x_{t-1})$ to reach out identity covariance Gaussian over $T$, $q(x_T) = \mathcal{N} (0, I)$. Reverse process, on the other hand, it learns how to recover the original data from the Gaussian with identity covariance $p_{\theta}(x_0) = q(x_0)$. Diffusion model follows maximum likelihood including forward and reverse transition as latent variable. Expected log likelihood $\log p_\theta (x_0)$ over $q(x_0)$ is  
+
+$$
+L = \mathbf{E}_{x_0 \sim q(x_0)} \[ \int dx_0 q(x_0) \log p_\theta (x_0) \]
+$$
+
+Introducing transitions $x_1, ..., x_T$ as the latent variables, the log likelihood inside expectation becomes 
+
 $$
 \begin{aligned}
-a &= b + c \\
-  &= d + e
+\log p_\theta (x_0) &= \log \int dx_{1, ..., T} p_\theta (x_{0, ..., T}) \\
+  &= \log \int dx_{1, ..., T}
 \end{aligned}
 $$
 
