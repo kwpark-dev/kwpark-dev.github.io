@@ -97,7 +97,7 @@ VLM is typically trained under the multimodal transformer but it depends on the 
 
 
 ### Diffusion Policy
-Diffusion policy learns a distribution over short horizon action chunks instead of individual actions. While it can produce full trajectory, distribution shift may hinder task accomplishment. The output of diffusion policy might be resemble with hierarchical RL but the core idea is distinguishable. It is based on [diffusion model](https://arxiv.org/abs/1503.03585), which is unsupervised generative model inspired by statistical thermodynamics. Dropping an ink droplet on water surface, the droplet becomes faded as ink particles spread out via Brownian motion. Diffusion model mimics this physical process by adding learnable recovery procedure to generate a new distribution. Forward process gradually diffuses the original data distribution $q(x_0)$ utilizing pre-defined Markovian kernel $q(x_t \mid x_{t-1})$ to reach out identity covariance Gaussian over $T$ as $q(x_T) = \mathcal{N} (0, I)$. Reverse process, on the other hand, it learns how to recover the original data from the Gaussian with identity covariance $p_{\theta}(x_0) = q(x_0)$. Diffusion model follows maximum likelihood including forward and reverse transition as latent variable. Expected log likelihood $\log p_\theta (x_0)$ over $q(x_0)$ is  
+Diffusion policy learns a distribution over short horizon action chunks instead of individual actions. While it can produce full trajectory, distribution shift may hinder task accomplishment. The output of diffusion policy might be resemble with hierarchical RL but the core idea is distinguishable. It is based on [diffusion model](https://arxiv.org/abs/1503.03585), which is unsupervised generative model inspired by statistical thermodynamics. Dropping an ink droplet on water surface, the droplet becomes faded as ink particles spread out via Brownian motion. Diffusion model mimics this physical process by adding learnable recovery procedure to generate a new distribution. Forward process gradually diffuses the original data distribution $q(x_0)$ utilizing pre-defined Markovian kernel $q(x_t \mid x_{t-1}; \beta _t)$, where $\beta_t$ is diffusion constant (or can be learnable parameters, upto design choice), to reach out identity covariance Gaussian over $T$ as $q(x_T) = \mathcal{N} (0, I)$. Reverse process, on the other hand, it learns how to recover the original data from the Gaussian with identity covariance $p_{\theta}(x_0) = q(x_0)$. Diffusion model follows maximum likelihood including forward and reverse transition as latent variable. Expected log likelihood $\log p_\theta (x_0)$ over $q(x_0)$ is  
 
 $$
 \begin{aligned}
@@ -114,7 +114,7 @@ $$
   &= \log \int dx_{1, ..., T} p_\theta (x_{0, ..., T}) \frac{q(x_{1, ..., T} \mid x_0)}{q(x_{1, ..., T} \mid x_0)} \\
   &= \log \int dx_{1, ..., T} q(x_{1, ..., T} \mid x_0) \frac{p_\theta (x_{0, ..., T})}{q(x_{1, ..., T} \mid x_0)} \\
   &= \log \int dx_{1, ..., T} q(x_{1, ..., T} \mid x_0) p_\theta (x_{T}) \prod _1 ^T \frac{p_\theta (x_{t-1} \mid x_t)}{q (x_{t} \mid x_{t-1})} \\
-  &= \log \mathbf{E}_{x_{1, ..., T} ~ q(x_{1, ..., T} \mid x_0)} \left[ p_\theta (x_{T}) \prod _1 ^T \frac{p_\theta (x_{t-1} \mid x_t)}{q (x_{t} \mid x_{t-1})} \right]  
+  &= \log \mathbf{E}_{x_{1, ..., T} \sim q(x_{1, ..., T} \mid x_0)} \left[ p_\theta (x_{T}) \prod _1 ^T \frac{p_\theta (x_{t-1} \mid x_t)}{q (x_{t} \mid x_{t-1})} \right]  
 \end{aligned}
 $$
 
@@ -124,7 +124,19 @@ $$
 L \geq \mathbf{E}_{q(x_{0, ..., T})} \left[ \log p_\theta (x_0 \mid x_1) -\sum _{t=2} ^T \text{KL} (q(x_{t-1} \mid x_t, x_0) || p_\theta (x_{t-1} \mid x_t)) - \text{KL}(q(x_{T} \mid x_0) || p_\theta (x_{T})) \right]
 $$
 
-which is called ELBO (Evidence Lower Bound)
+which is called ELBO (Evidence Lower Bound). Note that even reverse transition, $p_\theta (x_{t-1} \mid x_t)$, assumes Markovian without diffusion constant. Instead of comparing full trajectories of diffusion and reverse processes, temporal transitions (but not directly $p_\theta (x_{t-1} \mid x_t)$ vs $q (x_t \mid x_{t-1})$) are considered thereby it can avoid high variance coming from Monte-Carlo estimate. Based on diffusion model, [denosiing diffusion probabilistic models](https://arxiv.org/abs/2006.11239) suggests more practical recipe via noise prediction $\epsilon_\theta$ instead of predicting Gaussian parameters. Core idea is jumping sequence from the given data distribution to $t$-th distribution using Markov Gaussian chain such that
+
+$$
+x_t = \sqrt{\bar{\alpha}_t} x_0 + \sqrt{1-\bar{\alpha}_t} \epsilon
+$$
+
+or 
+
+$$
+q(x_t \mid x_{t-1}) = \mathcal{N} (\sqrt{\bar{\alpha}_t} x_0, \sqrt{1-\bar{\alpha}_t})
+$$
+
+where the noise is sampled from standard normal distribution. Thus, from the noisy sample $x_T$, the model constructs $x_0$ after reformulation.  
 
 ### Flow Matching
 
