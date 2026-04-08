@@ -136,7 +136,7 @@ $$
 q(x_t \mid x_{t-1}) = \mathcal{N} (\sqrt{\bar{\alpha}_t} x_0, \sqrt{1-\bar{\alpha}_t})
 $$
 
-where the noise is sampled from standard normal distribution. Thus, from the noisy sample $x_T$, the model constructs $x_0$ after reformulation.  
+where the noise is sampled from standard normal distribution. Thus, from the noisy sample $x_T$, the model would construct $x_0$ if it knows the injected noise.  
 
 ### Flow Matching
 
