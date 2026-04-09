@@ -142,7 +142,7 @@ $$
 a_{1:H} \sim p(a_{t:t+H} \mid o_t)
 $$
 
-through gradient field of action space $\nabla _a \log p(a_{t:t+H} \mid o_t)$.
+through gradient field of action space $\nabla_a \log p(a_{t:t+H} \mid o_t)$.
 
 ### Flow Matching
 
