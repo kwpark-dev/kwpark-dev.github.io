@@ -97,10 +97,7 @@ VLM is typically trained under the multimodal transformer but it depends on the 
 
 
 ### Diffusion Policy
-Diffusion policy learns a distribution over short horizon action chunks instead of individual actions. While it can produce full trajectory, distribution shift may hinder task accomplishment. The output of diffusion policy might be resemble with hierarchical RL but the core idea is distinguishable. It is based on [diffusion model](https://arxiv.org/abs/1503.03585), which is unsupervised generative model inspired by statistical thermodynamics. Dropping an ink droplet on water surface, the droplet becomes faded as ink particles spread out via Brownian motion. Diffusion model mimics this physical process by adding learnable recovery procedure to generate a new distribution. Forward process gradually diffuses the original data distribution $q(x_0)$ utilizing pre-defined Markovian kernel 
-$q(x_t \mid x_{t-1}; \beta _t)$, 
-where $\beta_t$
-is diffusion constant (or can be learnable parameters, upto design choice), to reach out identity covariance Gaussian over $T$ as $q(x_T) = \mathcal{N} (0, I)$. Reverse process, on the other hand, it learns how to recover the original data from the Gaussian with identity covariance $p_{\theta}(x_0) = q(x_0)$. Diffusion model follows maximum likelihood including forward and reverse transition as latent variable. Expected log likelihood $\log p_\theta (x_0)$ over $q(x_0)$ is  
+Diffusion policy learns a distribution over short horizon action chunks instead of individual actions. While it can produce full trajectory, distribution shift may hinder task accomplishment. The output of diffusion policy might be resemble with hierarchical RL but the core idea is distinguishable. It is based on [diffusion model](https://arxiv.org/abs/1503.03585), which is unsupervised generative model inspired by statistical thermodynamics. Dropping an ink droplet on water surface, the droplet becomes faded as ink particles spread out via Brownian motion. Diffusion model mimics this physical process by adding learnable recovery procedure to generate a new distribution. Forward process gradually diffuses the original data distribution $q(x_0)$ utilizing pre-defined Markovian kernel //(q(x_t \mid x_{t-1}; \beta _t)//), where $\beta_t$ is diffusion constant (or can be learnable parameters, upto design choice), to reach out identity covariance Gaussian over $T$ as $q(x_T) = \mathcal{N} (0, I)$. Reverse process, on the other hand, it learns how to recover the original data from the Gaussian with identity covariance $p_{\theta}(x_0) = q(x_0)$. Diffusion model follows maximum likelihood including forward and reverse transition as latent variable. Expected log likelihood $\log p_\theta (x_0)$ over $q(x_0)$ is  
 
 $$
 \begin{aligned}
@@ -149,5 +146,3 @@ through gradient field of action space $\nabla _a \log p(a_{t:t+H} \mid o_t)$.
 
 ### Flow Matching
 
-
-### Action Expert
