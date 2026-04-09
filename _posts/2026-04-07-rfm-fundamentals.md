@@ -136,7 +136,13 @@ $$
 q(x_t \mid x_{t-1}) = \mathcal{N} (\sqrt{\bar{\alpha}_t} x_0, \sqrt{1-\bar{\alpha}_t})
 $$
 
-where the noise is sampled from standard normal distribution. Thus, from the noisy sample $x_T$, the model would construct $x_0$ if it knows the injected noise.  
+where the noise is sampled from standard normal distribution. Thus, from the noisy sample $x_T$, the model would construct $x_0$ if it knows the injected noise. Note that noise prediction is mathematically equivalent with score matching $\nabla _x p_\theta (x)$ that appears in Lagenvin dynamics. It is a type of Markov chain Monte-Carlo (MCMC) that samples trajectory from the equation motion when probability density is intractable. DDPM has one more step to apply Langevin dynamics that it learns gradient of probability (from $p(x) = \tilde{p} (x) / Z$, neither flexible function and its normalizer are unknown). Aggregating principle and practical recipe for diffusion model, [diffusion policy](https://arxiv.org/pdf/2303.04137) shows how visuomotor policy can be trained under the action diffusion. While directly follows strategies of the previous works, it additionally considers action chunks instad of individual autoregression,
+
+$$
+a_{1:H} \sim p(a_{t:t+H} \mid o_t)
+$$
+
+through gradient field of action space $\nabla _a \log p(a_{t:t+H} \mid o_t)$.
 
 ### Flow Matching
 
