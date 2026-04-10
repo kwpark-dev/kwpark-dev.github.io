@@ -144,5 +144,17 @@ $$
 
 through gradient field of action space $\nabla_a \log p(a_{t:t+H} \mid o_t)$.
 
-### Flow Matching
+### [Flow Matching](https://arxiv.org/abs/2210.02747)
+While flow matching itself isn't matched to policy learning, it is emerging idea for robot imitation learning. As diffusion policy samples action chunks via diffusion & reverse processes originated from diffusion model, policy based on flow matching that generates velocity field conditioned on the observation $o_t$ is inspired from [continuous normalizing flow](https://arxiv.org/abs/1806.07366). Like DDPM simplifies original diffusion model to suggest practical recipe, flow matching makes CNF easier to apply. Core idea beneath CNF is smoothing process before conducting updates of RNN family or Resnet architecture. Basically, sequence of hidden states such that
 
+$$
+h_{t+1} = h_t + \phi_\theta (h_t)
+$$
+
+turns to 
+
+$$
+h(t)/dt = \phi_\theta (h(t), t)
+$$
+
+by addition smaller steps $\Delta t$ between $t$ and $t+1$. If $\Delta t=0.1$, 10 numerical updates are accumulated and is backpropagated. Parametraized function $\phi_\theta (x)$ is regarded as velocity vector field so that the model generalize path. With this formulation, flow matching is trained under the field regression $L = (u(t) - v_\theta (t))^2$.  
